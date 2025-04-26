@@ -1,0 +1,7 @@
+<suite name="TVN Test Suite">
+    <test name="heroku">
+        <packages>
+            <package name="heroku"></package>
+        </packages>
+    </test>
+</suite>

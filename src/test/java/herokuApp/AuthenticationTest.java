@@ -21,6 +21,7 @@ public class AuthenticationTest {
     @BeforeClass
     void setup(String browser){
         Browser.openBrowser(browser);
+        driver = Browser.getDriver();
         wait = new WebDriverWait(driver, Duration.ofSeconds(4));
     }
     @BeforeMethod

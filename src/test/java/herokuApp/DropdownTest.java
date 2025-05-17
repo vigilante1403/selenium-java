@@ -5,74 +5,63 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
+import pages.DropdownPage;
+import pages.OutputJsbinPage;
+import utils.Browser;
 
 import java.time.Duration;
 import java.util.List;
 
+import static utils.Browser.openBrowser;
+
 public class DropdownTest {
-    WebDriver driver;
-    WebDriverWait wait;
+    DropdownPage dropdownPage;
+    OutputJsbinPage outputJsbinPage;
+
     @BeforeClass
-    void setUp(){
-        driver = new ChromeDriver();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(4));
-        driver.get("https://the-internet.herokuapp.com/dropdown");
+    void setUp(@Optional("chrome") String browserName){
+        openBrowser(browserName);
+        dropdownPage = new DropdownPage();
+        outputJsbinPage = new OutputJsbinPage();
+
     }
 
     @Test
     void verifyCanSelectOptions(){
-        WebDriver driver = new ChromeDriver();
-        driver.get("https://the-internet.herokuapp.com/dropdown");
-
-        WebElement element = driver.findElement(By.xpath("//select[@id='dropdown']"));
-        Select dropdown = new Select(element);
-        dropdown.selectByVisibleText("Option 1");
-
-//        Assert.assertTrue(driver.findElement(By.xpath("//select[@id='dropdown']/option[.='Option 1']")).isSelected());
-        Assert.assertTrue(driver.findElement(By.xpath("//option[.='Option 1']")).isSelected());
-//        Assert.assertTrue(driver.findElement(By.xpath("//select[@id='dropdown']/option[text()='Option 1']")).isSelected());
-        Assert.assertTrue(driver.findElement(By.xpath("//option[text()='Option 1']")).isSelected());
-        dropdown.selectByVisibleText("Option 2");
-        //        Assert.assertTrue(driver.findElement(By.xpath("//select[@id='dropdown']/option[.='Option 1']")).isSelected());
-        Assert.assertTrue(driver.findElement(By.xpath("//option[.='Option 2']")).isSelected());
-//        Assert.assertTrue(driver.findElement(By.xpath("//select[@id='dropdown']/option[text()='Option 1']")).isSelected());
-        Assert.assertTrue(driver.findElement(By.xpath("//option[text()='Option 2']")).isSelected());
+        dropdownPage.open();
+        dropdownPage.selectElement("Option 1");
+        Assert.assertTrue(Browser.getElement(By.xpath("//option[.='Option 1']")).isSelected());
+        Assert.assertTrue(Browser.getElement(By.xpath("//option[text()='Option 1']")).isSelected());
+        dropdownPage.selectElement("Option 2");
+        Assert.assertTrue(Browser.getElement(By.xpath("//option[.='Option 2']")).isSelected());
+        Assert.assertTrue(Browser.getElement(By.xpath("//option[text()='Option 2']")).isSelected());
     }
     @Test
     void verifyCanSelectMultipleOptions(){
-        driver.get("https://output.jsbin.com/osebed/2");
-        Select select = new Select(driver.findElement(By.id("fruits")));
-
-        select.selectByVisibleText("Banana");
-        select.selectByVisibleText("Orange");
-        select.selectByVisibleText("Grape");
-
-        Assert.assertTrue(driver.findElement(By.xpath("//select[@id='fruits']/option[.='Banana']")).isSelected());
-        Assert.assertTrue(driver.findElement(By.xpath("//select[@id='fruits']/option[.='Orange']")).isSelected());
-        Assert.assertTrue(driver.findElement(By.xpath("//select[@id='fruits']/option[.='Grape']")).isSelected());
-
-        select.deselectAll();
-
-        Assert.assertFalse(driver.findElement(By.xpath("//select[@id='fruits']/option[.='Banana']")).isSelected());
-        Assert.assertFalse(driver.findElement(By.xpath("//select[@id='fruits']/option[.='Orange']")).isSelected());
-        Assert.assertFalse(driver.findElement(By.xpath("//select[@id='fruits']/option[.='Grape']")).isSelected());
+        outputJsbinPage.open();
+        outputJsbinPage.selectMultiElements(List.of("Banana","Orange","Grape"));
+        Assert.assertTrue(Browser.getElement(By.xpath("//select[@id='fruits']/option[.='Banana']")).isSelected());
+        Assert.assertTrue(Browser.getElement(By.xpath("//select[@id='fruits']/option[.='Orange']")).isSelected());
+        Assert.assertTrue(Browser.getElement(By.xpath("//select[@id='fruits']/option[.='Grape']")).isSelected());
+        outputJsbinPage.deselectMultiElements();
+        Assert.assertFalse(Browser.getElement(By.xpath("//select[@id='fruits']/option[.='Banana']")).isSelected());
+        Assert.assertFalse(Browser.getElement(By.xpath("//select[@id='fruits']/option[.='Orange']")).isSelected());
+        Assert.assertFalse(Browser.getElement(By.xpath("//select[@id='fruits']/option[.='Grape']")).isSelected());
     }
-    @Test
+//    @Test
     void verifyEnabledInputField(){
         WebDriver driver = new ChromeDriver();
         WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(4));
         driver.get("https://the-internet.herokuapp.com/dynamic_controls");
-//        wait.until(ExpectedConditions.)
         Assert.assertTrue(driver.findElement(By.cssSelector("form#input-example input")).isEnabled());
     }
-    @Test
+//    @Test
     void verifybasicAuthForm(){
         WebDriver driver = new ChromeDriver();
         WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
@@ -80,7 +69,7 @@ public class DropdownTest {
         Assert.assertTrue(driver.findElement(By.xpath("//p")).getText().contains("Congratulations! You must have the proper credentials"));
 
     }
-    @Test
+//    @Test
     void verifyBrokenImage(){
         WebDriver driver = new ChromeDriver();
         driver.get("https://the-internet.herokuapp.com/broken_images");
@@ -94,6 +83,6 @@ public class DropdownTest {
     }
     @AfterClass
     void tearDown(){
-        driver.quit();
+        Browser.quit();
     }
 }

@@ -1,61 +1,53 @@
 package herokuApp;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
+import pages.HyperlinkPage;
+import utils.Browser;
 
-import java.time.Duration;
+
+
+import static utils.Browser.openBrowser;
 
 public class Hyperlink {
-    WebDriver driver;
-    WebDriverWait wait;
+    HyperlinkPage hyperlinkPage;
 
     @BeforeClass
-    void setUp(){
-        driver = new ChromeDriver();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    void setUp(@Optional("chrome") String browserName){
+        openBrowser(browserName);
+        hyperlinkPage = new HyperlinkPage();
+        hyperlinkPage.open();
     }
-    @BeforeMethod
-    void reloadPage(){
-        driver.get("https://the-internet.herokuapp.com/status_codes");
-    }
+
     @Test
     void checkStatusCodes() {
 
         // click link status code 200
-        driver.findElement(By.linkText("200")).click();
-        Assert.assertEquals(driver.getCurrentUrl(), "https://the-internet.herokuapp.com/status_codes/200");
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.id("content"))));
-        String content = driver.findElement(By.id("content")).getText();
-        Assert.assertTrue(content.contains("This page returned a 200 status code"));
+        hyperlinkPage.clickLink("200");
+        Assert.assertEquals(Browser.getCurrentUrl(), "https://the-internet.herokuapp.com/status_codes/200");
+        Browser.visible(By.id("content"));
+        Assert.assertTrue(Browser.getElement(By.id("content")).getText().contains("This page returned a 200 status code"));
         // 301 test
-        driver.navigate().back();
-        driver.findElement(By.linkText("301")).click();
-        Assert.assertEquals(driver.getCurrentUrl(), "https://the-internet.herokuapp.com/status_codes/301");
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.id("content"))));
-        content = driver.findElement(By.id("content")).getText();
-        Assert.assertTrue(content.contains("This page returned a 301 status code."));
+        Browser.goBack();
+        hyperlinkPage.clickLink("301");
+        Assert.assertEquals(Browser.getCurrentUrl(), "https://the-internet.herokuapp.com/status_codes/301");
+        Browser.visible(By.id("content"));
+        Assert.assertTrue(Browser.getElement(By.id("content")).getText().contains("This page returned a 301 status code"));
+
         //404 test
-        driver.navigate().back();
-        driver.findElement(By.linkText("404")).click();
-        Assert.assertEquals(driver.getCurrentUrl(), "https://the-internet.herokuapp.com/status_codes/404");
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.id("content"))));
-        content = driver.findElement(By.id("content")).getText();
-        Assert.assertTrue(content.contains("This page returned a 404 status code."));
+        Browser.goBack();
+        hyperlinkPage.clickLink("404");
+        Assert.assertEquals(Browser.getCurrentUrl(), "https://the-internet.herokuapp.com/status_codes/404");
+        Browser.visible(By.id("content"));
+        Assert.assertTrue(Browser.getElement(By.id("content")).getText().contains("This page returned a 404 status code"));
         //500 test
-        driver.navigate().back();
-        driver.findElement(By.linkText("500")).click();
-        Assert.assertEquals(driver.getCurrentUrl(), "https://the-internet.herokuapp.com/status_codes/500");
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.id("content"))));
-        content = driver.findElement(By.id("content")).getText();
-        Assert.assertTrue(content.contains("This page returned a 500 status code."));
+        Browser.goBack();
+        hyperlinkPage.clickLink("500");
+        Assert.assertEquals(Browser.getCurrentUrl(), "https://the-internet.herokuapp.com/status_codes/500");
+        Browser.visible(By.id("content"));
+        Assert.assertTrue(Browser.getElement(By.id("content")).getText().contains("This page returned a 500 status code"));
+
     }
 
 
@@ -63,6 +55,6 @@ public class Hyperlink {
 
     @AfterClass
     void tearDown(){
-        driver.quit();
+        Browser.quit();
     }
 }

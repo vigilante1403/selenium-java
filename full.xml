@@ -1,0 +1,9 @@
+<suite name="Test full">
+    <test name="Chrome Browser Test">
+        <parameter name="browser" value="chrome"/>
+        <packages>
+            <package name="herokuApp"/>
+        </packages>
+    </test>
+
+</suite>

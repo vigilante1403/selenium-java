@@ -15,12 +15,15 @@ import utils.Browser;
 import java.time.Duration;
 import java.util.logging.Logger;
 
+import static utils.Browser.*;
+
 public class HoverTest {
     HoverPage  hoverPage;
     private static final Logger logger = Logger.getLogger(HoverTest.class.getName());
     @Parameters({"browser"})
     @BeforeClass
     void setUp(@Optional("chrome") String browserName) {
+        openBrowser(browserName);
         hoverPage = new HoverPage();
         logger.info("Create instance then instantiate actions and wait objects");
         hoverPage.open();

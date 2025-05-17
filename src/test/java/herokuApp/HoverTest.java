@@ -9,45 +9,39 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.*;
+import pages.HoverPage;
+import utils.Browser;
 
 import java.time.Duration;
 import java.util.logging.Logger;
 
+import static utils.Browser.*;
+
 public class HoverTest {
-    WebDriver driver;
-    WebDriverWait wait;
-    Actions actions;
+    HoverPage  hoverPage;
     private static final Logger logger = Logger.getLogger(HoverTest.class.getName());
     @Parameters({"browser"})
     @BeforeClass
-    void setUp(){
-        driver = new ChromeDriver();
-        actions = new Actions(driver);
-        wait = new WebDriverWait(driver, Duration.ofSeconds(4));
+    void setUp(@Optional("chrome") String browserName) {
+        openBrowser(browserName);
+        hoverPage = new HoverPage();
         logger.info("Create instance then instantiate actions and wait objects");
-    }
-    @BeforeMethod
-    void reloadPage(){
-        driver.get("https://the-internet.herokuapp.com/hovers");
+        hoverPage.open();
         logger.info("Redirect to page to perform action");
     }
 
     @Test
     void hoverOnAnElement(){
-        WebElement element = driver.findElement(By.xpath("(//div[@class='figure'])[1]"));
-        actions.moveToElement(element).perform();
-        WebElement caption = driver.findElement(By.xpath("(//div[@class='figure'])[1]/div[@class='figcaption']"));
-        Assert.assertTrue(caption.getText().contains("user1"));
-        WebElement viewProfile = driver.findElement(By.xpath("(//div[@class='figure'][1])/div[@class='figcaption']/a[.='View profile']"));
-        actions.click(viewProfile).perform();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.tagName("h1")));
-        Assert.assertEquals(driver.findElement(By.tagName("h1")).getText(),"Not Found");
+        hoverPage.hoverOverElement();
+        logger.info("Hover over the element");
+        Assert.assertTrue(Browser.getElement(By.xpath("(//div[@class='figure'])[1]/div[@class='figcaption']")).getText().contains("user1"));
+        hoverPage.viewProfile();
+        hoverPage.confirmElement();
+        Assert.assertEquals(Browser.getElement(By.tagName("h1")).getText(),"Not Found");
     }
-
-
 
     @AfterClass
     void tearDown(){
-        driver.quit();
+        Browser.quit();
     }
 }

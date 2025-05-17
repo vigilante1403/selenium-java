@@ -17,7 +17,5 @@ public class HoverPage {
     public void confirmElement(){
         Browser.visible(By.tagName("h1"));
     }
-    public String getTextOfElement(String element){
-        return utils.Browser.getElement(By.xpath("//div[@class='figure'][1]//h5")).getText();
-    }
+
 }

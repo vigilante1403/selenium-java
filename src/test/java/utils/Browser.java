@@ -84,6 +84,7 @@ package utils;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -95,6 +96,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.Arrays;
+import java.util.List;
 
 // selenium owner methods
 public class Browser {
@@ -128,6 +131,11 @@ public class Browser {
     public static void sendKeys(String content){
         driver.switchTo().alert().sendKeys(content);
     }
+
+    public static List<WebElement> getElements(By xpath) {
+        return  driver.findElements(xpath);
+    }
+
     public void setDriver(WebDriver webDriver){
         driver = webDriver;
         wait = new WebDriverWait(driver, Duration.ofSeconds(30));

@@ -8,10 +8,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.time.Duration;
 import java.util.logging.Logger;
@@ -21,6 +18,7 @@ public class HoverTest {
     WebDriverWait wait;
     Actions actions;
     private static final Logger logger = Logger.getLogger(HoverTest.class.getName());
+    @Parameters({"browser"})
     @BeforeClass
     void setUp(){
         driver = new ChromeDriver();

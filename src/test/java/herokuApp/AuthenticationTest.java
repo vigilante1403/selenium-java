@@ -13,7 +13,7 @@ import static utils.Browser.openBrowser;
 public class AuthenticationTest {
 
     AuthenticationPage authenticationPage;
-//    @Parameters({"browser"})
+    @Parameters({"browser"})
     @BeforeClass
     void setup(@Optional("chrome") String browser){
         openBrowser(browser);

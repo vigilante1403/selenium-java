@@ -7,10 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import pages.DropdownPage;
 import pages.OutputJsbinPage;
 import utils.Browser;
@@ -23,7 +20,7 @@ import static utils.Browser.openBrowser;
 public class DropdownTest {
     DropdownPage dropdownPage;
     OutputJsbinPage outputJsbinPage;
-
+    @Parameters({"browser"})
     @BeforeClass
     void setUp(@Optional("chrome") String browserName){
         openBrowser(browserName);

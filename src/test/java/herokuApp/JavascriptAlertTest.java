@@ -2,10 +2,7 @@ package herokuApp;
 
 import org.openqa.selenium.By;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import pages.JavascriptAlertPage;
 import utils.Browser;
 
@@ -17,7 +14,7 @@ import static utils.Browser.openBrowser;
 public class JavascriptAlertTest {
     private static final Logger logger = Logger.getLogger(JavascriptAlertTest.class.getName());
     JavascriptAlertPage javascriptAlertPage;
-
+    @Parameters({"browser"})
     @BeforeClass
     void setUp(@Optional("chrome") String browserName) {
         openBrowser(browserName);

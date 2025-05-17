@@ -14,7 +14,7 @@ import static utils.Browser.openBrowser;
 public class DragDropTest {
     DragDropPage dragDropPage;
     private static final Logger logger = Logger.getLogger(DragDropTest.class.getName());
-
+    @Parameters({"browser"})
     @BeforeClass
     void setUp(@Optional("chrome") String browserName){
         openBrowser(browserName);

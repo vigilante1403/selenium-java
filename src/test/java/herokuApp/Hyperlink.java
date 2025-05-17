@@ -12,7 +12,7 @@ import static utils.Browser.openBrowser;
 
 public class Hyperlink {
     HyperlinkPage hyperlinkPage;
-
+    @Parameters({"browser"})
     @BeforeClass
     void setUp(@Optional("chrome") String browserName){
         openBrowser(browserName);

@@ -20,7 +20,7 @@ public class HorizontalSlideTest {
 
     HorizontalSlidePage horizontalSlidePage;
     private static final Logger logger = Logger.getLogger(HorizontalSlideTest.class.getName());
-
+    @Parameters({"browser"})
     @BeforeClass
     void setUp(@Optional("chrome") String browserName){
         openBrowser(browserName);

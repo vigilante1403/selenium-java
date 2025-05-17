@@ -3,6 +3,7 @@ package herokuApp;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import pages.CheckboxPage;
 import pages.PoatazeldebsyPage;
@@ -13,7 +14,7 @@ import static utils.Browser.openBrowser;
 public class CheckboxesTest {
     CheckboxPage checkboxPage;
     PoatazeldebsyPage poatazeldebsyPage;
-
+    @Parameters({"browser"})
     @BeforeClass
     void setUp() {
         openBrowser("chrome");
